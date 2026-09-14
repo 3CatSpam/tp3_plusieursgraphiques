@@ -16,6 +16,7 @@ import "../styles/global.css";
       <label for="page-navigation">Page</label>
       <select id="page-navigation" aria-label="Navigation principale">
         <option value="/" selected={Astro.url.pathname === "/"}>Accueil</option>
+        <option value="/tabs" selected={Astro.url.pathname === "/tabs"}>Onglets</option>
         <option value="/adelie" selected={Astro.url.pathname === "/adelie"}>Adelie</option>
         <option value="/chinstrap" selected={Astro.url.pathname === "/chinstrap"}>Chinstrap</option>
         <option value="/gentoo" selected={Astro.url.pathname === "/gentoo"}>Gentoo</option>
