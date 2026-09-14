@@ -12,6 +12,16 @@ import "../styles/global.css";
     <title>Astro Basics</title>
   </head>
   <body>
+    <header class="site-header">
+      <nav aria-label="Navigation principale">
+        <a class:list={{ active: Astro.url.pathname === "/" }} href="/">Accueil</a>
+        <a class:list={{ active: Astro.url.pathname === "/adelie" }} href="/adelie">Adelie</a>
+        <a class:list={{ active: Astro.url.pathname === "/chinstrap" }} href="/chinstrap">Chinstrap</a>
+        <a class:list={{ active: Astro.url.pathname === "/gentoo" }} href="/gentoo">Gentoo</a>
+        <a class:list={{ active: Astro.url.pathname === "/diamonds" }} href="/diamonds">Diamants</a>
+        <a class:list={{ active: Astro.url.pathname === "/cars" }} href="/cars">Voitures</a>
+      </nav>
+    </header>
     <slot />
   </body>
 </html>
@@ -22,5 +32,38 @@ import "../styles/global.css";
     margin: 0;
     width: 100%;
     height: 100%;
+  }
+
+  .site-header {
+    border-bottom: 1px solid #d9e2e8;
+    background: #ffffff;
+    padding: 0.75rem 1.5rem;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+
+  nav a {
+    border-radius: 0.375rem;
+    color: #4b5563;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  nav a:hover {
+    background: #eef6f8;
+    color: #176b87;
+  }
+
+  nav a.active {
+    background: #d9f0f5;
+    color: #0f566b;
+    font-weight: 700;
   }
 </style>

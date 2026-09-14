@@ -1,0 +1,32 @@
+---
+import PlotFigure from "../components/PlotFigure.astro";
+import Layout from "../layouts/Layout.astro";
+import * as Plot from "@observablehq/plot";
+import cars from "../assets/cars.json";
+const cylinderCounts = [...new Set(cars.map(({ cylinders }) => cylinders))];
+---
+
+<Layout>
+  <main class="home-content">
+    <h1 class="mt-0 text-2xl">Voitures</h1>
+    <nav class="chart-menu" aria-label="Voitures par nombre de cylindres">
+      {cylinderCounts.map((cylinders) => <a class="menu-item" href={`/cars/${cylinders}`}>{cylinders} cylindres</a>)}
+    </nav>
+    <section class="chart-slide">
+      <PlotFigure
+        options={{
+          x: { label: "Economy (mpg)" },
+          y: { label: "Power (hp)" },
+          marks: [
+            Plot.dot(cars, {
+              x: "economy (mpg)",
+              y: "power (hp)",
+              stroke: "cylinders",
+              tip: true,
+            }),
+          ],
+        }}
+      />
+    </section>
+  </main>
+</Layout>

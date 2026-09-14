@@ -1,0 +1,48 @@
+---
+import PlotFigure from "../components/PlotFigure.astro";
+import Layout from "../layouts/Layout.astro";
+import * as Plot from "@observablehq/plot";
+import diamonds from "../assets/diamonds.json";
+const qualityDiamonds = diamonds
+  .filter(({ clarity }) => ["VVS1", "VVS2", "IF"].includes(clarity))
+  .filter((_, index) => index % 10 === 0);
+const diamondColors = [...new Set(qualityDiamonds.map(({ color }) => color))];
+const colorGrades: Record<string, string> = {
+  D: "Blanc exceptionnel",
+  E: "Incolore",
+  F: "Incolore",
+  G: "Presque incolore",
+  H: "Presque incolore",
+  I: "Presque incolore",
+  J: "Presque incolore",
+};
+---
+
+<Layout>
+  <main class="home-content">
+    <h1 class="mt-0 text-2xl">Diamants</h1>
+    <nav class="chart-menu" aria-label="Diamants par couleur">
+      {diamondColors.map((color) => (
+        <a class="menu-item" href={`/diamonds/${color}`}>
+          Grade {color} - {colorGrades[color]}
+        </a>
+      ))}
+    </nav>
+    <section class="chart-slide">
+      <PlotFigure
+        options={{
+          x: { label: "Carat" },
+          y: { label: "Price ($)" },
+          marks: [
+            Plot.dot(qualityDiamonds, {
+              x: "carat",
+              y: "price",
+              stroke: "cut",
+              tip: true,
+            }),
+          ],
+        }}
+      />
+    </section>
+  </main>
+</Layout>

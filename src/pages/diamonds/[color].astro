@@ -1,0 +1,70 @@
+---
+import PlotFigure from "../../components/PlotFigure.astro";
+import Layout from "../../layouts/Layout.astro";
+import * as Plot from "@observablehq/plot";
+import diamonds from "../../assets/diamonds.json";
+const qualityDiamonds = diamonds
+  .filter(({ clarity }) => ["VVS1", "VVS2", "IF"].includes(clarity))
+  .filter((_, index) => index % 10 === 0);
+const colorGrades: Record<string, string> = {
+  D: "Blanc exceptionnel",
+  E: "Incolore",
+  F: "Incolore",
+  G: "Presque incolore",
+  H: "Presque incolore",
+  I: "Presque incolore",
+  J: "Presque incolore",
+};
+
+export function getStaticPaths() {
+  const colors = [
+    ...new Set(
+      diamonds
+        .filter(({ clarity }) => ["VVS1", "VVS2", "IF"].includes(clarity))
+        .map(({ color }) => color),
+    ),
+  ];
+
+  return colors.map((color) => ({
+    params: { color },
+    props: { color },
+  }));
+}
+
+const { color } = Astro.props;
+const diamondsByColor = qualityDiamonds.filter((diamond) => diamond.color === color);
+const diamondColors = [...new Set(qualityDiamonds.map(({ color }) => color))];
+---
+
+<Layout>
+  <main class="home-content">
+    <h1 class="mt-0 text-2xl">Diamants {color} ({colorGrades[color]})</h1>
+    <nav class="chart-menu" aria-label="Diamants par couleur">
+      {diamondColors.map((diamondColor) => (
+        <a
+          class="menu-item"
+          class:list={{ active: diamondColor === color }}
+          href={`/diamonds/${diamondColor}`}
+        >
+          Couleur {diamondColor} - {colorGrades[diamondColor]}
+        </a>
+      ))}
+    </nav>
+    <section class="chart-slide">
+      <PlotFigure
+        options={{
+          x: { label: "Qualité (cut)" },
+          y: { label: "Prix ($)" },
+          marks: [
+            Plot.dot(diamondsByColor, {
+              x: "cut",
+              y: "price",
+              stroke: "clarity",
+              tip: true,
+            }),
+          ],
+        }}
+      />
+    </section>
+  </main>
+</Layout>

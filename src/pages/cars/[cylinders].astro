@@ -1,0 +1,52 @@
+---
+import PlotFigure from "../../components/PlotFigure.astro";
+import Layout from "../../layouts/Layout.astro";
+import * as Plot from "@observablehq/plot";
+import cars from "../../assets/cars.json";
+
+export function getStaticPaths() {
+  const cylinders = [...new Set(cars.map(({ cylinders }) => cylinders))];
+
+  return cylinders.map((cylinders) => ({
+    params: { cylinders: String(cylinders) },
+    props: { cylinders },
+  }));
+}
+
+const { cylinders } = Astro.props;
+const carsByCylinders = cars.filter((car) => car.cylinders === cylinders);
+const cylinderCounts = [...new Set(cars.map(({ cylinders }) => cylinders))];
+---
+
+<Layout>
+  <main class="home-content">
+    <h1 class="mt-0 text-2xl">Voitures - {cylinders} cylindres</h1>
+    <nav class="chart-menu" aria-label="Voitures par nombre de cylindres">
+      {cylinderCounts.map((cylinderCount) => (
+        <a
+          class="menu-item"
+          class:list={{ active: cylinderCount === cylinders }}
+          href={`/cars/${cylinderCount}`}
+        >
+          {cylinderCount} cylindres
+        </a>
+      ))}
+    </nav>
+    <section class="chart-slide">
+      <PlotFigure
+        options={{
+          x: { label: "Economy (mpg)" },
+          y: { label: "Power (hp)" },
+          marks: [
+            Plot.dot(carsByCylinders, {
+              x: "economy (mpg)",
+              y: "power (hp)",
+              stroke: "year",
+              tip: true,
+            }),
+          ],
+        }}
+      />
+    </section>
+  </main>
+</Layout>

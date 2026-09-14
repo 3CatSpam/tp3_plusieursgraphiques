@@ -3,19 +3,87 @@ import PlotFigure from "../components/PlotFigure.astro";
 import Layout from "../layouts/Layout.astro";
 import * as Plot from "@observablehq/plot";
 import penguins from "../assets/penguins.json";
+const penguinsAdelie = penguins.filter(({ species }) => species === "Adelie");
+const penguinsChinstrap = penguins.filter(({ species }) => species === "Chinstrap");
+const penguinsGentoo = penguins.filter(({ species }) => species === "Gentoo");
 ---
 
 <Layout>
-  <h1 class="text-2xl">Test Astro et Plot (Observablehq)</h1>
-  <PlotFigure
-    options={{
-      marks: [
-        Plot.dot(penguins, {
-          x: "culmen_length_mm",
-          y: "culmen_depth_mm",
-          stroke: "species",
-        }),
-      ],
-    }}
-  />
+  <main class="home-content">
+    <h1 class="mt-0 text-2xl">Comparaison des manchots</h1>
+
+    <nav class="chart-menu" aria-label="Accès aux graphiques">
+      <a class="menu-item" href="#adelie">Adelie</a>
+      <a class="menu-item" href="#chinstrap">Chinstrap</a>
+      <a class="menu-item" href="#gentoo">Gentoo</a>
+    </nav>
+
+    <div class="slider" aria-label="Graphiques des différentes espèces">
+      <section class="chart-slide item" id="adelie">
+        <h2 class="mt-0">Adelie</h2>
+        <PlotFigure
+          options={{
+            marks: [
+              Plot.dot(penguinsAdelie, {
+                x: "culmen_length_mm",
+                y: "culmen_depth_mm",
+                stroke: "species",
+              }),
+            ],
+          }}
+        />
+      </section>
+
+      <section class="chart-slide item" id="chinstrap">
+        <h2 class="mt-0">Chinstrap</h2>
+        <PlotFigure
+          options={{
+            marks: [
+              Plot.dot(penguinsChinstrap, {
+                x: "culmen_length_mm",
+                y: "culmen_depth_mm",
+                stroke: "species",
+              }),
+            ],
+          }}
+        />
+      </section>
+
+      <section class="chart-slide item" id="gentoo">
+        <h2 class="mt-0">Gentoo</h2>
+        <PlotFigure
+          options={{
+            marks: [
+              Plot.dot(penguinsGentoo, {
+                x: "culmen_length_mm",
+                y: "culmen_depth_mm",
+                stroke: "species",
+              }),
+            ],
+          }}
+        />
+      </section>
+    </div>
+  </main>
 </Layout>
+
+<script>
+  const menuItems = document.querySelectorAll(".menu-item");
+  const items = document.querySelectorAll(".item");
+
+  console.log("menuItems", menuItems);
+  console.log("items", items);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const id = entry.target.getAttribute("id");
+        const menuItem = document.querySelector(`.menu-item[href="#${id}"]`);
+        menuItem?.classList.toggle("active", entry.isIntersecting);
+      });
+    },
+    { threshold: 0.5 },
+  );
+
+  items.forEach((item) => observer.observe(item));
+</script>
