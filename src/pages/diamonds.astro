@@ -30,6 +30,10 @@ const colorGrades: Record<string, string> = {
     </nav>
     <section class="chart-slide">
       <PlotFigure
+        title="Prix des diamants selon leur poids"
+        subtitle="Les points sont différenciés selon la qualité de la coupe."
+        caption="Nuage de points comparant le poids et le prix des diamants sélectionnés."
+        ariaLabel="Nuage de points du prix et du poids des diamants"
         options={{
           x: { label: "Carat" },
           y: { label: "Price ($)" },

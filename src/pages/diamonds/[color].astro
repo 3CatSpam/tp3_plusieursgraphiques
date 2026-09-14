@@ -52,6 +52,10 @@ const diamondColors = [...new Set(qualityDiamonds.map(({ color }) => color))];
     </nav>
     <section class="chart-slide">
       <PlotFigure
+        title={`Diamants de couleur ${color}`}
+        subtitle="Prix selon la qualité de la coupe, avec distinction par niveau de clarté."
+        caption={`Nuage de points des diamants de couleur ${color} (${colorGrades[color]}).`}
+        ariaLabel={`Nuage de points des prix des diamants de couleur ${color}`}
         options={{
           x: { label: "Qualité (cut)" },
           y: { label: "Prix ($)" },

@@ -11,6 +11,10 @@ const penguinsAdelie = penguins.filter(({ species }) => species === "Adelie");
     <h1 class="mt-0 text-2xl">Adelie</h1>
     <section class="chart-slide">
       <PlotFigure
+        title="Mesures des manchots Adelie"
+        subtitle="Longueur et profondeur du culmen des manchots Adelie."
+        caption="Distribution des mesures des manchots Adelie."
+        ariaLabel="Nuage de points des mesures des manchots Adelie"
         options={{
           marks: [
             Plot.dot(penguinsAdelie, {

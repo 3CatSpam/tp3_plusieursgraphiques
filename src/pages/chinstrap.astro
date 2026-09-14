@@ -11,6 +11,10 @@ const penguinsChinstrap = penguins.filter(({ species }) => species === "Chinstra
     <h1 class="mt-0 text-2xl">Chinstrap</h1>
     <section class="chart-slide">
       <PlotFigure
+        title="Mesures des manchots Chinstrap"
+        subtitle="Longueur et profondeur du culmen des manchots Chinstrap."
+        caption="Distribution des mesures des manchots Chinstrap."
+        ariaLabel="Nuage de points des mesures des manchots Chinstrap"
         options={{
           marks: [
             Plot.dot(penguinsChinstrap, {

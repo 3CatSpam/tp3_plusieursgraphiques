@@ -11,6 +11,10 @@ const penguinsGentoo = penguins.filter(({ species }) => species === "Gentoo");
     <h1 class="mt-0 text-2xl">Gentoo</h1>
     <section class="chart-slide">
       <PlotFigure
+        title="Mesures des manchots Gentoo"
+        subtitle="Longueur et profondeur du culmen des manchots Gentoo."
+        caption="Distribution des mesures des manchots Gentoo."
+        ariaLabel="Nuage de points des mesures des manchots Gentoo"
         options={{
           marks: [
             Plot.dot(penguinsGentoo, {

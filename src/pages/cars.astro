@@ -14,6 +14,10 @@ const cylinderCounts = [...new Set(cars.map(({ cylinders }) => cylinders))];
     </nav>
     <section class="chart-slide">
       <PlotFigure
+        title="Puissance des voitures selon leur économie de carburant"
+        subtitle="Les voitures sont regroupées par nombre de cylindres."
+        caption="Nuage de points comparant l’économie de carburant et la puissance des voitures."
+        ariaLabel="Nuage de points de la puissance et de l’économie de carburant des voitures"
         options={{
           x: { label: "Economy (mpg)" },
           y: { label: "Power (hp)" },
