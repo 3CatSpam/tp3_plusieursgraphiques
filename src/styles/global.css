@@ -24,15 +24,11 @@ h2 {
 }
 
 .chart-menu {
-	@apply my-6 flex gap-4;
+	@apply my-6;
 }
 
-.menu-item {
-	@apply font-bold text-[#176b87] no-underline hover:underline;
-}
-
-.menu-item.active {
-	@apply rounded-md bg-[#d9f0f5] px-3 py-1 text-[#0f566b] no-underline;
+select.chart-menu {
+	@apply rounded-md border border-[#b8cbd2] bg-white px-3 py-2 font-bold text-[#176b87];
 }
 
 .slider {

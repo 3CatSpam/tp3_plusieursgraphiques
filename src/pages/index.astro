@@ -12,11 +12,12 @@ const penguinsGentoo = penguins.filter(({ species }) => species === "Gentoo");
   <main class="home-content">
     <h1 class="mt-0 text-2xl">Comparaison des manchots</h1>
 
-    <nav class="chart-menu" aria-label="Accès aux graphiques">
-      <a class="menu-item" href="#adelie">Adelie</a>
-      <a class="menu-item" href="#chinstrap">Chinstrap</a>
-      <a class="menu-item" href="#gentoo">Gentoo</a>
-    </nav>
+    <label for="species">Espèce</label>
+    <select id="species" class="chart-menu" aria-label="Accès aux graphiques">
+      <option value="adelie">Adelie</option>
+      <option value="chinstrap">Chinstrap</option>
+      <option value="gentoo">Gentoo</option>
+    </select>
 
     <div class="slider" aria-label="Graphiques des différentes espèces">
       <section class="chart-slide item" id="adelie">
@@ -80,18 +81,21 @@ const penguinsGentoo = penguins.filter(({ species }) => species === "Gentoo");
 </Layout>
 
 <script>
-  const menuItems = document.querySelectorAll(".menu-item");
+  const speciesSelect = document.querySelector("#species") as HTMLSelectElement | null;
   const items = document.querySelectorAll(".item");
 
-  console.log("menuItems", menuItems);
-  console.log("items", items);
+  speciesSelect?.addEventListener("change", (event) => {
+    const value = (event.target as HTMLSelectElement).value;
+    location.hash = value;
+  });
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         const id = entry.target.getAttribute("id");
-        const menuItem = document.querySelector(`.menu-item[href="#${id}"]`);
-        menuItem?.classList.toggle("active", entry.isIntersecting);
+        if (entry.isIntersecting && id && speciesSelect) {
+          speciesSelect.value = id;
+        }
       });
     },
     { threshold: 0.5 },
